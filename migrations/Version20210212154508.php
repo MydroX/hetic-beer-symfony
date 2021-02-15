@@ -23,6 +23,11 @@ final class Version20210212154508 extends AbstractMigration
         $this->addSql('ALTER TABLE category ADD term VARCHAR(100) NOT NULL');
     }
 
+    public function isTransactional(): bool
+    {
+        return false;
+    }
+
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs

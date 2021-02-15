@@ -23,6 +23,11 @@ final class Version20210212103509 extends AbstractMigration
         $this->addSql('ALTER TABLE beer ADD degree NUMERIC(3, 2) NOT NULL, CHANGE price price NUMERIC(3, 2) DEFAULT NULL');
     }
 
+    public function isTransactional(): bool
+    {
+        return false;
+    }
+
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs

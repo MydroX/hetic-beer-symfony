@@ -5,6 +5,8 @@ RUN apk add --no-cache ca-certificates \
     git \
     sudo
 
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
 COPY docker/api/php.ini /usr/local/etc/php/conf.d/local.ini  
 
 COPY . /var/www/app

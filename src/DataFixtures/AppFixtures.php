@@ -22,6 +22,7 @@ class AppFixtures extends Fixture
             'houblon', 'rose', 'menthe', 'grenadine', 'réglisse', 'marron', 'whisky', 'bio'
         ];
 
+
         foreach ($categoriesNormals as $name) {
             $category = new Category();
             $category->setName($name);
@@ -66,6 +67,8 @@ class AppFixtures extends Fixture
         // mettre une description & une date associées à vos bières
 
         $count = 0;
+        $categoriesRepo = $manager->getRepository(Category::class);
+
         $repoCountry = $manager->getRepository(Country::class);
         while ($count < 20) {
             $beer =  new Beer();
@@ -88,10 +91,27 @@ class AppFixtures extends Fixture
             // dump( $date->format('Y-m-d h:i:s') ) ;
 
             if (rand(1, 3) === 1)
-                $beer->setPrice(rand(40, 200) / 10);
+            $beer->setPrice(rand(40, 200) / 10);
 
             $beer->setDegree(rand(40, 90) / 10);
             $beer->setPublishedAt($date);
+
+            $randomNormalCategory = random_int(0, count($categoriesNormals) - 1);
+
+            $beer->addCategory($categoriesRepo->findOneBy(
+                ["name" => $categoriesNormals[$randomNormalCategory]]
+            ));
+
+            $specialCategoryNumber = random_int(0, 4);
+            for ($i=0 ; $i < $specialCategoryNumber ; $i++) {
+                $categoriesSpecialsTemp = $categoriesSpecials;
+                shuffle($categoriesSpecialsTemp);
+
+                $beer->addCategory($categoriesRepo->findOneBy(
+                    ["name" => $categoriesSpecialsTemp[$i]]
+                ));
+            }
+
 
             $manager->persist($beer);
             $count++;
