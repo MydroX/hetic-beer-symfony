@@ -1,0 +1,54 @@
+version: "3.3"
+services: 
+  app-api:
+    container_name: app-api
+    build:
+      context: ../
+      dockerfile: docker/api/Dockerfile
+    volumes: 
+      - ../.:/var/www/app
+      - ./api/php.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./api/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    restart: unless-stopped
+    depends_on: 
+      - app-db
+    networks: 
+      - hetic
+  
+  app-nginx:
+    container_name: app-nginx
+    image: nginx:1.19.6-alpine
+    depends_on: 
+      - app-api
+    volumes:
+      - ../.:/var/www/app
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+      - ./nginx/sites/:/etc/nginx/sites-available
+    ports:
+      - 80:80
+      - 443:443
+    restart: unless-stopped
+    networks: 
+      - hetic
+
+  app-db:
+    container_name: app-db
+    image: mysql:8.0.23
+    ports: 
+      - 3307:3306
+    volumes: 
+      - dbdata:/var/lib/mysql
+    env_file: 
+      - ../.env.dev
+    restart: unless-stopped
+    networks: 
+      - hetic
+
+networks: 
+  hetic:
+    external: true
+
+volumes:
+  dbdata:
+    driver: local
