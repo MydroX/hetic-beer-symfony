@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\BeerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,24 +45,16 @@ class BarController extends AbstractController
         ]);
     }
 
-    // ceci bloque une possible réponse au client 
-    private function beers_api()
+    /**
+     * @Route("/beer/{id}", name="beer")
+     */
+    public function show(int $id): Response
     {
-        $response = $this->client->request(
-            'GET',
-            'https://raw.githubusercontent.com/Antoine07/hetic_symfony/main/Introduction/Data/beers.json'
-        );
-
-        $statusCode = $response->getStatusCode();
-        // $statusCode = 200
-        $contentType = $response->getHeaders()['content-type'][0];
-        // $contentType = 'application/json'
-        $content = $response->getContent();
-        // $content = '{"id":521583, "name":"symfony-docs", ...}'
-        $content = $response->toArray();
-        // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
-
-        return $content;
+        $beerRepo = $this->getDoctrine()->getRepository(Beer::class);
+        return $this->render('beer/index.html.twig', [
+            "title" => "Page beer",
+            'beer' => $beerRepo->findOneBy(["id" => $id])
+        ]);
     }
 
     /**
@@ -82,13 +75,15 @@ class BarController extends AbstractController
     }
 
     /**
-     * @Route("/home", name="home")
+     * @Route("/", name="home")
      */
     public function home()
     {
-
+        $beersRepo = $this->getDoctrine()->getRepository(Beer::class);
+        $last3beers = $beersRepo->getLast3BeersOfTable();
         return $this->render('home/index.html.twig', [
             'title' => "Page d'accueil",
+            "beers" => $last3beers
         ]);
     }
 
@@ -111,31 +106,6 @@ class BarController extends AbstractController
         $entityManager->flush();
 
         return new Response('Saved new beer with id ' . $beer->getId());
-    }
-
-    /**
-     * @Route("/newcatbeer", name="newcatbeer")
-     */
-    public function createCatBeer()
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $beers = $this->getDoctrine()->getRepository(Beer::class);
-
-        // dump($beers->findAll());
-
-        $category = new Category();
-        $category->setname('Blonde');
-        $category->setDescription('Super bière blonde');
-
-        foreach ($beers->findAll() as $beer) {
-            $category->addBeer($beer);
-        }
-
-        $entityManager->persist($category);
-
-        $entityManager->flush();
-
-        return new Response('Saved all beers into category "Blonde" ');
     }
 
     private function generateCat()
