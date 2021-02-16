@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Repository\BeerRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -156,5 +158,34 @@ class BarController extends AbstractController
         dump($repository->findByName('Ambrée'));
 
         return new Response('test repo');
+    }
+
+    /**
+     * @Route("/menu", name="menu")
+     */
+    public function mainMenu(): Response{
+
+        $categoriesRepo = $this->getDoctrine()->getRepository(Category::class);
+
+        return $this->render('partial/main_menu.html.twig', [
+            "categories" => $categoriesRepo->findBy(["term" => "normal"])
+        ]);
+    }
+
+    /**
+     * @Route("/category/{id}", name="category")
+     */
+    public function beerByCategory(Request $request): Response {
+        $categoriesRepo = $this->getDoctrine()->getRepository(Category::class);
+        $beersRepo = $this->getDoctrine()->getRepository(Beer::class);
+        $id = $request->attributes->get("id");
+
+        $category = $categoriesRepo->findOneBy(["id" => $id]);
+        $beers = $beersRepo->getBeersByCategory($id);
+
+        return $this->render("beers/category.html.twig", [
+            "title" => "beers" . $category->getName(),
+            "beers" => $beers
+        ]);
     }
 }
