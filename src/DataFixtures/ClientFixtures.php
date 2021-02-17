@@ -24,7 +24,7 @@ class ClientFixtures extends Fixture
             $newClient->setEmail($email);
             $newClient->setBeerNumberPurchased(random_int(1, 20));
             $newClient->setWeight(random_int(50, 140));
-            $newClient->setAge(random_int(13, 105));
+            $newClient->setAge(random_int(13, 70));
 
             $manager->persist($newClient);
         }

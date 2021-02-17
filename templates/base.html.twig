@@ -16,12 +16,11 @@
     <body>
     {% include 'partials/main_menu.html.twig' %}
         <div class="container">
-
             <div class="row">
-                <div class="col-md-4">
-                Sidebar
+                <div class="col-md-2">
+                {% block sidebar %}{% endblock %}
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                 {% block body %}{% endblock %}
                 </div>
             </div>

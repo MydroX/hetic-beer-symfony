@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block sidebar %}
+    {% include "statistics/menu.html.twig" %}
+{% endblock %}
+
+{% block body %}
+    <ul>
+        {% for client in clients %}
+            <li>
+                <p class="card-title">{{ client.name }}</p>
+                <div>
+                    <p class="text-info">Age : {{ client.age }}</p>
+                    <p>Nombre de bières achetée(s) : {{ client.beerNumberPurchased }}</p>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
