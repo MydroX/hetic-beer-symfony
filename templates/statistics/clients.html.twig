@@ -1,21 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+	{{ title }}
+{% endblock %}
 
 {% block sidebar %}
-    {% include "statistics/menu.html.twig" %}
+	{% include "statistics/menu.html.twig" %}
 {% endblock %}
 
 {% block body %}
-    <ul>
-        {% for client in clients %}
-            <li>
-                <p class="card-title">{{ client.name }}</p>
-                <div>
-                    <p class="text-info">Age : {{ client.age }}</p>
-                    <p>Nombre de bières achetée(s) : {{ client.beerNumberPurchased }}</p>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
+	<ul>
+		{% for client in clients %}
+			<div class="card mb-3" style="width: 25rem;">
+				<div class="card-body">
+					<h3 class="card-title">{{ client.name }}</h3>
+					<p class="card-text">Age :
+						{{ client.age }}</p>
+					<p class="card-text">Nombre de bières achetée(s) :
+						{{ client.beerNumberPurchased }}</p>
+				</div>
+			</div>
+		{% endfor %}
+	</ul>
 {% endblock %}
