@@ -184,7 +184,7 @@ class BarController extends AbstractController
         $beers = $beersRepo->getBeersByCategory($id);
 
         return $this->render("beers/category.html.twig", [
-            "title" => "beers" . $category->getName(),
+            "title" => "beers " . $category->getName(),
             "beers" => $beers
         ]);
     }
