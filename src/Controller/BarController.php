@@ -32,7 +32,7 @@ class BarController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('bar/clients.html.twig', [
+        return $this->render('bar/index.html.twig', [
             'title' => 'The bar kkkkkk',
             'info' => 'Hello World'
         ]);
@@ -44,7 +44,7 @@ class BarController extends AbstractController
     public function mentions()
     {
 
-        return $this->render('mentions/clients.html.twig', [
+        return $this->render('mentions/index.html.twig', [
             'title' => 'Mentions légales',
         ]);
     }
@@ -57,7 +57,7 @@ class BarController extends AbstractController
 
         $beerRepo = $this->getDoctrine()->getRepository(Beer::class);
         // dd($beerRepo->findOneBy(["id" => $id]));
-        return $this->render('beer/clients.html.twig', [
+        return $this->render('beer/index.html.twig', [
             "title" => "Page beer",
             'beer' => $beerRepo->findOneBy(["id" => $id])
         ]);
@@ -74,7 +74,7 @@ class BarController extends AbstractController
            dump($beer->getCountry());
         }
 
-        return $this->render('beers/clients.html.twig', [
+        return $this->render('beers/index.html.twig', [
             'title' => 'Page beers',
             'beers' => $beerRepo->findAll()
         ]);
@@ -87,7 +87,7 @@ class BarController extends AbstractController
     {
         $beersRepo = $this->getDoctrine()->getRepository(Beer::class);
         $last3beers = $beersRepo->getLast3BeersOfTable();
-        return $this->render('home/clients.html.twig', [
+        return $this->render('home/index.html.twig', [
             'title' => "Page d'accueil",
             "beers" => $last3beers
         ]);
