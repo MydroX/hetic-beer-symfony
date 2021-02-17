@@ -1,15 +1,15 @@
 ##Command docker
 
 ````bash
-docker -f docker/docker-compose.yml up --build
+docker-compose -f docker/docker-compose.yml up --build
 ````
 
 ````bash
-docker -f docker/docker-compose.yml up 
+docker-compose -f docker/docker-compose.yml up 
 ````
 
 ````bash
-docker -f docker/docker-compose.yml down
+docker-compose -f docker/docker-compose.yml down
 ````
 
 ````bash
