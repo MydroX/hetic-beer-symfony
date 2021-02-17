@@ -8,17 +8,18 @@
             <div>
                 <ul class="container-fluid">
                     {% for beer in beers %}
+                    <a class="link_beer" href="{{ path('beer', { 'id' : beer.id }) }}">
                         <li class="card card__beers col">
                             <div class="card-body">
-                                <p class="card-title">{{ beer.name }}</p>
+                                <h2 class="card-title">{{ beer.name }}</h2>
                                 <p class="card-text">
                                     {{ beer.description }}
                                 </p>
                                 <div class="button">
-                                    <a href="{{ path('beer', { 'id' : beer.id }) }}">Voir plus</a>
                                 </div>
                             </div>
                         </li>
+                       </a>
                     {% endfor %}
                 </ul>
             </div>

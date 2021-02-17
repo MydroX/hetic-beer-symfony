@@ -1,6 +1,6 @@
 {% for category in categories %}
-    <li>
-        <a href="{{ path('category', { 'id' : category.id }) }}">
+    <li class="nav-item">
+        <a class="nav-link {% if route_name is defined and route_name == 'category' %} active {% endif %}" href="{{ path('category', { 'id' : category.id }) }}">
             {{ category.name }}
         </a>
     </li>

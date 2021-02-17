@@ -52,7 +52,9 @@ class BarController extends AbstractController
      */
     public function show(int $id): Response
     {
+
         $beerRepo = $this->getDoctrine()->getRepository(Beer::class);
+        // dd($beerRepo->findOneBy(["id" => $id]));
         return $this->render('beer/index.html.twig', [
             "title" => "Page beer",
             'beer' => $beerRepo->findOneBy(["id" => $id])
@@ -69,7 +71,7 @@ class BarController extends AbstractController
         foreach ($beerRepo->findAll() as $beer) {
            dump($beer->getCountry());
         }
-      
+
         return $this->render('beers/index.html.twig', [
             'title' => 'Page beers',
             'beers' => $beerRepo->findAll()
