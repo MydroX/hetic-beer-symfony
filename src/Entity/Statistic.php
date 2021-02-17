@@ -18,12 +18,14 @@ class Statistic
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Beer::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Beer::class, inversedBy="statistics")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $beer;
 
     /**
-     * @ORM\OneToOne(targetEntity=Client::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="statistics")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $client;
 
